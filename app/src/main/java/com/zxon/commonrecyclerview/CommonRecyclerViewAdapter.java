@@ -4,20 +4,16 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<BaseCommonItemModel<?, ?>> mCommonItemModel = new ArrayList();
-
-    // todo : visibility
-    public HashMap<Class, Integer> mClassToTypeMap = new HashMap<>();
-    public HashMap<Integer, BaseCommonViewHolderCreator> mTypeToCreator = new HashMap<>();
 
     Context mContext;
 
@@ -27,17 +23,13 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public int getItemViewType(int position) {
-        Integer value = mClassToTypeMap.get(mCommonItemModel.get(position).getClass());
-        checkNotNull(value);
-        return value;
+        return position;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        BaseCommonViewHolderCreator baseCommonViewHolderCreator = mTypeToCreator.get(viewType);
-        checkNotNull(baseCommonViewHolderCreator);
-        return baseCommonViewHolderCreator.getViewHolder(mContext, parent);
+        return mCommonItemModel.get(viewType).onCreateViewHolder(mContext, parent);
     }
 
     @Override
@@ -50,11 +42,11 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         return mCommonItemModel.size();
     }
 
-    public void addItem(BaseCommonItemModel<?,?> baseCommonItemModel) {
+    public void addItem(BaseCommonItemModel<?, ?> baseCommonItemModel) {
         mCommonItemModel.add(mCommonItemModel.size(), baseCommonItemModel);
     }
 
-    public void addItem(int index, BaseCommonItemModel<?,?> baseCommonItemModel) {
+    public void addItem(int index, BaseCommonItemModel<?, ?> baseCommonItemModel) {
         mCommonItemModel.add(index, baseCommonItemModel);
     }
 
@@ -64,7 +56,8 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
-    public static abstract class BaseCommonItemModel<T, VH extends CommonViewHolder> {
+
+    public static abstract class BaseCommonItemModel<T, VH extends BaseCommonViewHolder> {
         T realItem;
 
         BaseCommonItemModel(T item) {
@@ -77,28 +70,20 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         protected abstract void onBind(VH viewHolder);
 
+        public RecyclerView.ViewHolder onCreateViewHolder(Context context, ViewGroup parent) {
+            return performCreateViewHolder(context, parent, getLayoutResId());
+        }
+
+        public abstract RecyclerView.ViewHolder performCreateViewHolder(Context context, ViewGroup parent, int layoutResId);
+
+        // todo: annotation @ResId
+        public abstract int getLayoutResId();
     }
 
-    public static class CommonViewHolder extends RecyclerView.ViewHolder {
-
-        public CommonViewHolder(View itemView) {
-            super(itemView);
+    public static abstract class BaseCommonViewHolder extends RecyclerView.ViewHolder {
+        public BaseCommonViewHolder(Context context, ViewGroup parent, int layoutResId) {
+            super(LayoutInflater.from(context).inflate(layoutResId, parent, false));
         }
     }
 
-    public static abstract class BaseCommonViewHolderCreator<VH extends RecyclerView.ViewHolder> {
-
-        abstract int getLayoutResId();
-
-        RecyclerView.ViewHolder getViewHolder(Context context, ViewGroup parent) {
-            View view = getView(context, parent);
-            return createViewHolder(view);
-        }
-
-        protected abstract VH createViewHolder(View view);
-
-        protected View getView(Context context, ViewGroup parent) {
-            return LayoutInflater.from(context).inflate(getLayoutResId(), parent, false);
-        }
-    }
 }
