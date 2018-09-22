@@ -71,10 +71,10 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         protected abstract void onBind(VH viewHolder);
 
         public RecyclerView.ViewHolder onCreateViewHolder(Context context, ViewGroup parent) {
-            return performCreateViewHolder(context, parent, getLayoutResId());
+            return getCommonViewHolderCreator().create(context, parent, getLayoutResId());
         }
 
-        public abstract RecyclerView.ViewHolder performCreateViewHolder(Context context, ViewGroup parent, int layoutResId);
+        public abstract CommonViewHolderCreator getCommonViewHolderCreator();
 
         // todo: annotation @ResId
         public abstract int getLayoutResId();
@@ -86,4 +86,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
+    public interface CommonViewHolderCreator {
+        public RecyclerView.ViewHolder create(Context context, ViewGroup parent, int layoutResId);
+    }
 }

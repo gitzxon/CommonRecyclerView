@@ -99,14 +99,13 @@ public class MainActivity extends AppCompatActivity {
 
     class CommonData1 extends CommonRecyclerViewAdapter.BaseCommonItemModel<DataType1, Common1ViewHolder> {
 
-
         CommonData1(DataType1 item) {
             super(item);
         }
 
         @Override
-        public RecyclerView.ViewHolder performCreateViewHolder(Context context, ViewGroup parent, int layoutResId) {
-            return new Common1ViewHolder(context, parent, layoutResId);
+        public CommonRecyclerViewAdapter.CommonViewHolderCreator getCommonViewHolderCreator() {
+            return Common1ViewHolder::new;
         }
 
         @Override
@@ -121,16 +120,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     class CommonData2 extends CommonRecyclerViewAdapter.BaseCommonItemModel<DataType2, Common2ViewHolder> {
 
 
         CommonData2(DataType2 item) {
             super(item);
-        }
-
-        @Override
-        public RecyclerView.ViewHolder performCreateViewHolder(Context context, ViewGroup parent, int layoutResId) {
-            return new Common2ViewHolder(context, parent, layoutResId);
         }
 
         @Override
@@ -143,17 +138,16 @@ public class MainActivity extends AppCompatActivity {
             viewHolder.title.setText(realItem.title);
             viewHolder.content.setText(realItem.content);
         }
+
+        @Override
+        public CommonRecyclerViewAdapter.CommonViewHolderCreator getCommonViewHolderCreator() {
+            return Common2ViewHolder::new;
+        }
     }
     class CommonData3 extends CommonRecyclerViewAdapter.BaseCommonItemModel<DataType3, Common3ViewHolder> {
 
-
         CommonData3(DataType3 item) {
             super(item);
-        }
-
-        @Override
-        public RecyclerView.ViewHolder performCreateViewHolder(Context context, ViewGroup parent, int layoutResId) {
-            return new Common3ViewHolder(context, parent, layoutResId);
         }
 
         @Override
@@ -165,6 +159,11 @@ public class MainActivity extends AppCompatActivity {
         protected void onBind(Common3ViewHolder viewHolder) {
             viewHolder.title.setText(realItem.title);
             viewHolder.content.setText(realItem.content);
+        }
+
+        @Override
+        public CommonRecyclerViewAdapter.CommonViewHolderCreator getCommonViewHolderCreator() {
+            return Common3ViewHolder::new;
         }
     }
 
