@@ -1,6 +1,8 @@
 package com.zxon.commonrecyclerview;
 
 import android.content.Context;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -65,6 +67,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         public void bindViewHolder(RecyclerView.ViewHolder viewHolder) {
+            //noinspection unchecked
             onBind((VH) viewHolder);
         }
 
@@ -76,7 +79,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         public abstract CommonViewHolderCreator getCommonViewHolderCreator();
 
-        // todo: annotation @ResId
+        @LayoutRes
         public abstract int getLayoutResId();
     }
 
@@ -87,6 +90,6 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public interface CommonViewHolderCreator {
-        public RecyclerView.ViewHolder create(Context context, ViewGroup parent, int layoutResId);
+        RecyclerView.ViewHolder create(Context context, ViewGroup parent, int layoutResId);
     }
 }

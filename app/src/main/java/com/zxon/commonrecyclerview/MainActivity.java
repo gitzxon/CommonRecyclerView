@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         public CommonRecyclerViewAdapter.CommonViewHolderCreator getCommonViewHolderCreator() {
             return Common2ViewHolder::new;
         }
+
     }
     class CommonData3 extends CommonRecyclerViewAdapter.BaseCommonItemModel<DataType3, Common3ViewHolder> {
 
