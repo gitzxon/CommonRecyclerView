@@ -60,7 +60,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
 
     public static abstract class BaseCommonItemModel<T, VH extends BaseCommonViewHolder> {
-        T realItem;
+        protected T realItem;
 
         public BaseCommonItemModel(T item) {
             realItem = item;
