@@ -19,7 +19,7 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     Context mContext;
 
-    CommonRecyclerViewAdapter(Context context) {
+    public CommonRecyclerViewAdapter(Context context) {
         mContext = context;
     }
 
