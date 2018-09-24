@@ -44,6 +44,10 @@ public class CommonRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         return mCommonItemModel.size();
     }
 
+    public void clear() {
+        mCommonItemModel.clear();
+    }
+
     public void addItem(BaseCommonItemModel<?, ?> baseCommonItemModel) {
         mCommonItemModel.add(mCommonItemModel.size(), baseCommonItemModel);
     }
